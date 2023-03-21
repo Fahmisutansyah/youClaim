@@ -11,7 +11,7 @@ const bcryptUtil = {
 };
 const jwtUtil = {
   generateJwt(obj) {
-    return jwt.sign({ email: obj, id: obj.id }, "jwt");
+    return jwt.sign({ email: obj.email, id: obj.id }, "jwt");
   },
   decodeJwt(token) {
     // JWT KEY SHOULD BE PUT IN env file

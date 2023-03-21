@@ -69,7 +69,7 @@ class UserController {
   }
 
   static getPayload(req, res) {
-    let decode = decodeJWT(req.headers.tokenn);
+    let decode = jwtUtil.decodeJwt(req.headers.token);
     User.findOne({
       _id: decode.id,
     })

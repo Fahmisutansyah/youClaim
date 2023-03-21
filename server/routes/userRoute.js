@@ -5,5 +5,7 @@ const { Authentication } = require("../helpers/middlewares/authentication");
 
 route.post("/", UserController.create);
 route.post("/login", UserController.login);
+route.use(Authentication);
+route.get("/pl", UserController.getPayload);
 
 module.exports = route;
