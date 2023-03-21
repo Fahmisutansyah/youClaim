@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const { Merchant } = require("../models");
 
-const { hashPass } = require("../helpers/util");
+const { bcryptUtil } = require("../helpers/util");
 
 const Schema = mongoose.Schema;
 
@@ -18,9 +19,15 @@ let userSchema = new Schema({
     type: String,
     required: true,
   },
+  merchantId: {
+    type: Schema.Types.ObjectId,
+    ref: "Merchant",
+  },
+  role: {
+    type: String,
+    required: true,
+  },
 });
-
-let User = mongoose.model("User", userSchema);
 
 userSchema.path("email").validate(function (value) {
   return new Promise(function (resolve, reject) {
@@ -38,11 +45,30 @@ userSchema.path("email").validate(function (value) {
   });
 }, "Email is taken!");
 
+userSchema.path("merchantId").validate(function (value) {
+  if (!value) {
+    return true;
+  }
+  return new Promise(function (resolve, reject) {
+    Merchant.findOne({ id: value }).then((merchant) => {
+      if (merchant) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  }).catch((err) => {
+    reject(err);
+  });
+}, "No merchant id found!");
+
 userSchema.pre("save", function (next) {
   if (this.isModified("password")) {
-    this.password = hashPass(this.password);
+    this.password = bcryptUtil.hashPass(this.password);
   }
   next();
 });
+
+let User = mongoose.model("User", userSchema);
 
 module.exports = User;
