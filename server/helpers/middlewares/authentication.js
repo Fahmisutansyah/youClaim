@@ -8,6 +8,9 @@ function Authentication(req, res, next) {
     User.findOne({ email: decode.email })
       .then((user) => {
         if (user) {
+          if (!user) {
+            throw { msg: "No User found" };
+          }
           next();
         } else {
           res.status(404).json({

@@ -75,6 +75,9 @@ class UserController {
     })
       .select(["-password"])
       .then((user) => {
+        if (!user) {
+          throw { message: "No user ID found" };
+        }
         res.status(200).json(user);
       })
       .catch((err) => {
