@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Merchant } = require("../models");
 
 const { bcryptUtil, jwtUtil } = require("../helpers/util");
 
@@ -79,6 +79,24 @@ class UserController {
           throw { message: "No user ID found" };
         }
         res.status(200).json(user);
+      })
+      .catch((err) => {
+        res.status(500).json({
+          msg: err.message,
+        });
+      });
+  }
+
+  static getMerchants(req, res) {
+    let decode = jwtUtil.decodeJwt(req.headers.token);
+    Merchant.findOne({
+      ownerId: decode.id,
+    })
+      .then((merchant) => {
+        if (!merchant) {
+          throw { message: "No merchant found owned by this user" };
+        }
+        res.status(200).json(merchant);
       })
       .catch((err) => {
         res.status(500).json({

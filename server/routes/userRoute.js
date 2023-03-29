@@ -7,5 +7,6 @@ route.post("/", UserController.create);
 route.post("/login", UserController.login);
 route.use(Authentication);
 route.get("/pl", UserController.getPayload);
+route.get("/owned", UserController.getMerchants);
 
 module.exports = route;
