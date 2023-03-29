@@ -20,6 +20,9 @@ let merchantSchema = new Schema({
   employeeId: {
     type: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
+  requestId: {
+    type: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  },
 });
 
 merchantSchema.path("name").validate(function (value) {
