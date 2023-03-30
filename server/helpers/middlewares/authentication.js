@@ -1,5 +1,5 @@
 const { jwtUtil } = require("../util");
-const { User } = require("../../models");
+const { User, Merchant } = require("../../models");
 
 function Authentication(req, res, next) {
   console.log("authenticating");
@@ -11,6 +11,7 @@ function Authentication(req, res, next) {
           if (!user) {
             throw { msg: "No User found" };
           }
+          res.locals.loggedUser = user;
           next();
         } else {
           res.status(404).json({
@@ -29,7 +30,34 @@ function Authentication(req, res, next) {
     });
   }
 }
+function MerchantAuthentication(req, res, next) {
+  const { loggedUser } = res.locals;
+  if (loggedUser) {
+    Merchant.findById(req.query.merchantId).then((merchant) => {
+      if (
+        merchant &&
+        merchant.ownerId.toString() === loggedUser.id.toString()
+      ) {
+        res.locals.merchant = merchant;
+        next();
+      } else if (!merchant) {
+        res.status(404).json({
+          msg: "Merchant not found",
+        });
+      } else {
+        res.status(403).json({
+          msg: "Not owner of the merchant",
+        });
+      }
+    });
+  } else {
+    res.status(404).json({
+      msg: "No logged User",
+    });
+  }
+}
 
 module.exports = {
   Authentication,
+  MerchantAuthentication,
 };
