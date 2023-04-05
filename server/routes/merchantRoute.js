@@ -12,4 +12,5 @@ route.patch("/requestby/id", MerchantController.userAddRequest);
 route.use(MerchantAuthentication);
 route.get("/requestlist", MerchantController.getRequestList);
 route.patch("/requestby/email", MerchantController.emailAddRequest);
+route.patch("/request/accept", MerchantController.acceptRequest);
 module.exports = route;

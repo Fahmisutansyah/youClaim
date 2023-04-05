@@ -85,13 +85,47 @@ class MerchantController {
     Merchant.findById(merchantId)
       .populate("requestId")
       .then((merchant) => {
-        if (merchant.ownerId !== decode.id) {
+        if (merchant.ownerId.toString() !== decode.id) {
           res.status(403).json({
             msg: "You are not authorized",
           });
           throw "Forbidden request";
         }
         res.status(200).json(merchant.requestId);
+      })
+      .catch((err) => {
+        res.status(500).json({
+          msg: err.message,
+        });
+      });
+  }
+
+  //TEST THIS FUNCTION OUT BOY
+  static acceptRequest(req, res) {
+    const { merchant } = res.locals;
+    const { userRequestId } = req.body;
+    const isId = (element) => {
+      return element.toString() === userRequestId;
+    };
+    Merchant.findById(merchant._id)
+      .then((dbMerchant) => {
+        const index = dbMerchant.requestId.findIndex(isId);
+        if (index !== -1) {
+          dbMerchant.employeeId.push(dbMerchant.requestId[index]);
+          dbMerchant.requestId.splice(index, 1);
+          dbMerchant
+            .save({ validateBeforeSave: false })
+            .then((savedMerchant) => {
+              res.status(200).json(savedMerchant);
+            })
+            .catch((err) => {
+              res.status(500).json({
+                msg: err.message,
+              });
+            });
+        } else {
+          throw { message: "no user id found in request list" };
+        }
       })
       .catch((err) => {
         res.status(500).json({
