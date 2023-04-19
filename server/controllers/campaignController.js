@@ -80,6 +80,20 @@ class CampaignController {
         });
       });
   }
+
+  static put(req, res) {
+    const { id } = req.query;
+    const body = req.body;
+    Campaign.findByIdAndUpdate(id, { $set: body }, { new: true })
+      .then((campaign) => {
+        res.status(200).json(campaign);
+      })
+      .catch((err) => {
+        res.status(500).json({
+          msg: err.message,
+        });
+      });
+  }
 }
 
 module.exports = CampaignController;
