@@ -32,11 +32,16 @@ function Authentication(req, res, next) {
 }
 function MerchantAuthentication(req, res, next) {
   const { loggedUser } = res.locals;
-  if (loggedUser) {
+  if (req.query.merchantId.length !== 24) {
+    res.status(404).json({
+      msg: "Invalid merchantId",
+    });
+  } else if (loggedUser) {
     Merchant.findById(req.query.merchantId).then((merchant) => {
       if (
         merchant &&
-        merchant.ownerId.toString() === loggedUser.id.toString()
+        (merchant.ownerId.toString() === loggedUser.id.toString() ||
+          merchant.employeeId.find(loggedUser.id.toString()))
       ) {
         res.locals.merchant = merchant;
         next();
