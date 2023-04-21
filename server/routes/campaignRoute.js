@@ -12,5 +12,6 @@ route.get("/one", CampaignController.getOne);
 route.get("/get", CampaignController.get);
 route.use(MerchantAuthentication);
 route.post("/new", CampaignController.create);
+route.put("/update", CampaignController.put);
 
 module.exports = route;
