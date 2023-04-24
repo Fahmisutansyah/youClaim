@@ -3,7 +3,14 @@ const { User, Merchant } = require("../../models");
 
 function Authentication(req, res, next) {
   console.log("authenticating");
-  let decode = jwtUtil.decodeJwt(req.headers.token);
+
+  let decode = "";
+  try {
+    decode = jwtUtil.decodeJwt(req.headers.token);
+  } catch (error) {
+    console.log(error.message);
+  }
+
   if (decode) {
     User.findOne({ email: decode.email })
       .then((user) => {
@@ -14,6 +21,7 @@ function Authentication(req, res, next) {
           res.locals.loggedUser = user;
           next();
         } else {
+          console.log("email not found");
           res.status(404).json({
             msg: "Email not found",
           });
@@ -46,16 +54,19 @@ function MerchantAuthentication(req, res, next) {
         res.locals.merchant = merchant;
         next();
       } else if (!merchant) {
+        console.log("merchant not found");
         res.status(404).json({
           msg: "Merchant not found",
         });
       } else {
+        console.log("not owner");
         res.status(403).json({
           msg: "Not owner of the merchant",
         });
       }
     });
   } else {
+    console.log("no logged user");
     res.status(404).json({
       msg: "No logged User",
     });
