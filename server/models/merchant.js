@@ -23,6 +23,11 @@ let merchantSchema = new Schema({
   requestId: {
     type: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
+  editorId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+  //editorId tipe employee yang bisa create campaign
 });
 
 merchantSchema.path("name").validate(function (value) {

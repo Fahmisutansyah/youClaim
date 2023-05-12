@@ -20,7 +20,6 @@ class CampaignController {
     let tSlug = slugify(
       !slug ? `{${merchantName} ${campaignName}}` : `{${merchantName} ${slug}}`
     );
-    console.log(isActive);
     let newCampaign = new Campaign({
       campaignName,
       banner,
@@ -31,6 +30,7 @@ class CampaignController {
       tnc,
       waNumber,
       isActive,
+      merchantId: req.query.merchantId,
       createdBy: decode.id,
     });
     newCampaign
@@ -64,7 +64,7 @@ class CampaignController {
   }
   static get(req, res) {
     const query = req.query;
-    Campaign.find({ query })
+    Campaign.find(query)
       .then((campaigns) => {
         if (campaigns.length > 0) {
           res.status(200).json(campaigns);

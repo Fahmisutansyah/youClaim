@@ -41,6 +41,11 @@ const campaignSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    merchantId: {
+      type: Schema.Types.ObjectId,
+      ref: "Merchant",
+      required: [true, "Tolong masukan merchantid"],
+    },
   },
   {
     timestamps: true,

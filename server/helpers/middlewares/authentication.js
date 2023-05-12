@@ -38,6 +38,8 @@ function Authentication(req, res, next) {
     });
   }
 }
+
+//FE STORE MERCHANTID WHEN LOGGED IN
 function MerchantAuthentication(req, res, next) {
   const { loggedUser } = res.locals;
   if (req.query.merchantId.length !== 24) {

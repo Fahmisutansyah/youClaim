@@ -100,7 +100,6 @@ class MerchantController {
       });
   }
 
-  //TEST THIS FUNCTION OUT BOY
   static acceptRequest(req, res) {
     const { merchant } = res.locals;
     const { userRequestId } = req.body;

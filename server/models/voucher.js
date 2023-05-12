@@ -20,10 +20,10 @@ const voucherSchema = new Schema(
       ref: "Campaign",
       required: [true, "Tolong masukan campaign id untuk voucher6"],
     },
-    name: {
+    customerName: {
       type: String,
     },
-    address: {
+    domicile: {
       type: String,
     },
     gender: {
@@ -35,7 +35,7 @@ const voucherSchema = new Schema(
     phoneNumber: {
       type: String,
     },
-    email: {
+    customerEmail: {
       type: String,
     },
   },
