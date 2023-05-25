@@ -5,6 +5,7 @@ const { bcryptUtil, jwtUtil } = require("../helpers/util");
 class UserController {
   static create(req, res, next) {
     // console.log(req.body.merchantId);
+    console.log(req.body);
     let newUser = new User({
       name: req.body.name,
       email: req.body.email,
