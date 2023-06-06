@@ -1,7 +1,7 @@
 <template>
   <v-btn
     :variant="variant ? variant : 'flat'"
-    class="c-button"
+    :class="`c-button ${classProp}`"
     @click="onClick"
   >
     {{ text }}
@@ -15,7 +15,8 @@ export default {
     text: String,
     variant: String,
     onClick: Function,
-  }
+    classProp: String
+  },
 }
 </script>
 

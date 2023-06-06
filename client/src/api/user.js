@@ -27,19 +27,31 @@ const apiUser = {
           password
         })
         .then(({ data }) => {
-          resolve(data)
+          resolve({ data })
         })
         .catch((err) => {
           reject(err)
         })
     })
   },
-  getPayload(token) {
+  getPayload() {
     return new Promise((resolve, reject) => {
       axios
-        .get(`${routeBase}/pl`, { token })
+        .get(`${routeBase}/pl`)
         .then(({ data }) => {
-          resolve(data)
+          resolve({ data })
+        })
+        .catch((err) => {
+          reject(err)
+        })
+    })
+  },
+  getMerchantOwned() {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`${routeBase}/owned`)
+        .then(({ data }) => {
+          resolve({ data })
         })
         .catch((err) => {
           reject(err)

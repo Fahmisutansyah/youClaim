@@ -27,9 +27,9 @@ export default {
 </script>
 
 <template>
-  <div class="container d-flex flex-column px-16">
+  <div class="container d-flex flex-column">
     <c-navbar/>
-    <div class="container__content d-flex flex-row">
+    <div class="container__content d-flex flex-row px-16">
       <div class="container__left w-50 d-flex justify-center flex-column">
         <div class="container__text">
           <p class="text-h6 headline-2">

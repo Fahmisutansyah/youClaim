@@ -13,5 +13,6 @@ route.get("/get", CampaignController.get);
 route.use(MerchantAuthentication);
 route.post("/new", CampaignController.create);
 route.put("/update", CampaignController.put);
+route.get("/page", CampaignController.getPagi);
 
 module.exports = route;

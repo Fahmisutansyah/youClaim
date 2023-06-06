@@ -41,7 +41,7 @@
               />
               <c-button
                 :text="'Login'"
-                :onClick="toggleAlert"
+                :onClick="login"
               />
             </template>
             <template v-if="!isLoggingIn">
@@ -130,7 +130,13 @@ export default {
           const {email, password} = this.form;
           apiUser.login(email, password).then(({data})=>{
             localStorage.setItem("token", data.token);
-            this.$store.commit('setLoadingFalse'); 
+            this.$store.dispatch('getPayload').then(()=>{
+              this.$router.push('/dashboard')
+              this.$store.commit('setLoadingFalse'); 
+            })
+            .catch(err=>{
+              console.log(err)
+            })
           })
           .catch((err)=>{
             this.$swal({
@@ -140,6 +146,8 @@ export default {
             })
             console.log(err)
           })
+        }else{
+          this.$store.commit('setLoadingFalse');
         }
       })
     }

@@ -1,10 +1,13 @@
 import { createStore } from 'vuex'
+import apiUser from '@/api/user.js'
+import { isObjectEmpty } from '@/utils/lib.js'
 
 const store = createStore({
   state() {
     return {
       isLoading: false,
-      userPayload: {}
+      userPayload: {},
+      merchPayload: {}
     }
   },
   mutations: {
@@ -19,6 +22,33 @@ const store = createStore({
     },
     clearUserPayload(state) {
       state.userPayload = {}
+    },
+    setMerchPayload(state, data) {
+      state.merchPayload = data
+    },
+    clearMerchPayload(state) {
+      state.merchPayload = {}
+    }
+  },
+  getters: {
+    userPayload: (state) => state.userPayload,
+    isPayloadEmpty: (state) => {
+      return isObjectEmpty(state.userPayload)
+    }
+  },
+  actions: {
+    getPayload({ commit }) {
+      return new Promise((resolve, reject) => {
+        apiUser
+          .getPayload()
+          .then(({ data }) => {
+            commit('setUserPayload', data)
+            resolve({ data })
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
     }
   }
 })

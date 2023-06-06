@@ -1,6 +1,8 @@
 const { Campaign } = require("../models");
 const { jwtUtil } = require("../helpers/util");
 const slugify = require("../helpers/lib/slugify");
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 class CampaignController {
   static create(req, res) {
@@ -45,7 +47,7 @@ class CampaignController {
       });
   }
   static getOne(req, res) {
-    const query = req.query;
+    const { query } = req.query;
     Campaign.findOne({ query })
       .then((campaign) => {
         if (campaign) {
@@ -63,7 +65,7 @@ class CampaignController {
       });
   }
   static get(req, res) {
-    const query = req.query;
+    const { query } = req.query;
     Campaign.find(query)
       .then((campaigns) => {
         if (campaigns.length > 0) {
@@ -73,6 +75,64 @@ class CampaignController {
             msg: "No campaign Found",
           });
         }
+      })
+      .catch((err) => {
+        res.status(500).json({
+          msg: err.message,
+        });
+      });
+  }
+
+  static getPagi(req, res) {
+    let { merchantId, skip, limit } = req.query;
+    skip = Number(skip);
+    limit = Number(limit);
+    console.log({ merchantId, skip, limit });
+    Campaign.aggregate([
+      {
+        $match: { merchantId: new ObjectId(merchantId) },
+      },
+      {
+        $facet: {
+          allCampaign: [{ $count: "totalCampaign" }],
+          campaigns: [
+            {
+              $lookup: {
+                from: "vouchers",
+                localField: "_id",
+                foreignField: "campaignId",
+                as: "vouchers",
+              },
+            },
+            {
+              $addFields: { totalVoucher: { $size: "$vouchers" } },
+            },
+            {
+              $addFields: {
+                totalRedeemed: {
+                  $size: {
+                    $filter: {
+                      input: "$vouchers",
+                      as: "item",
+                      cond: {
+                        $eq: ["$$item.isRedeemed", true],
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            {
+              $unset: "vouchers",
+            },
+            { $skip: skip },
+            { $limit: limit },
+          ],
+        },
+      },
+    ])
+      .then((campaigns) => {
+        res.status(200).json(campaigns[0]);
       })
       .catch((err) => {
         res.status(500).json({

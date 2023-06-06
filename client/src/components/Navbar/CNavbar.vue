@@ -7,12 +7,12 @@ export default {
 </script>
 
 <template>
-  <div class="nav-container d-flex flex-row justify-space-between pt-5">
+  <div class="nav-container d-flex flex-row justify-space-between py-3 px-16">
     <div class="logo-container w-25 d-flex flex-row align-center">
       <img src="../../assets/images/logo-youclaim.png" class='logo__logo mr-2'/>
       <img src="../../assets/images/logo-text.png" class='logo__text'/>
     </div>
-    <div class="action-container w-25 d-flex flex-row justify-center align-center">
+    <div class="action-container w-25 d-flex flex-row justify-end align-center">
       <c-button :text="'Contact us'" :variant="'tonal'"/>
     </div>
   </div>
