@@ -5,13 +5,7 @@
       <c-side-bar/>
       <div class="dashboard__content pa-4 d-flex align-center w-100">
         <div class="w-100 h-100 dashboard__content-container d-flex flex-column">
-          <div class="dashboard__content-container__header mb-4">
-            <p class="text-h4 font-weight-light mb-3">{{ merchPayload.name }}</p>
-            <p class="text-h5">DASHBOARD</p>
-            <div class="dashboard__breadcrumbs my-2">
-              <v-breadcrumbs :items="path"/>
-            </div>
-          </div>
+          <c-page-header :merchantName="merchPayload.name" :pageName="'DASHBOARD'" :path="path"/>
           <div class="dashboard__content-body mb-4">
             <campaign-table :data="this.campaigns"/>
           </div>
@@ -37,6 +31,7 @@ import apiUser from '@/api/user.js'
 import apiCampaign from '@/api/campaign.js'
 import { isObjectEmpty } from '@/utils/lib.js'
 import CampaignTable from './units/CampaignTable.vue'
+import CPageHeader from '../../components/PageHeader/CPageHeader.vue'
 
 export default {
   name: 'DashboardView',
@@ -44,6 +39,7 @@ export default {
     CNavbar,
     CSideBar,
     CampaignTable,
+    CPageHeader
   },
   data(){
     return {

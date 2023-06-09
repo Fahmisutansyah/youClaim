@@ -47,16 +47,52 @@ class CampaignController {
       });
   }
   static getOne(req, res) {
-    const { query } = req.query;
-    Campaign.findOne({ query })
+    const { merchantId, _id } = req.query;
+    Campaign.aggregate([
+      {
+        $match: {
+          merchantId: new ObjectId(merchantId),
+          _id: new ObjectId(_id),
+        },
+      },
+      {
+        $facet: {
+          campaign: [
+            {
+              $lookup: {
+                from: "vouchers",
+                localField: "_id",
+                foreignField: "campaignId",
+                as: "vouchers",
+              },
+            },
+            {
+              $addFields: {
+                totalRedeemed: {
+                  $size: {
+                    $filter: {
+                      input: "$vouchers",
+                      as: "item",
+                      cond: {
+                        $eq: ["$$item.isRedeemed", true],
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            {
+              $addFields: { totalVoucher: { $size: "$vouchers" } },
+            },
+            {
+              $unset: "vouchers",
+            },
+          ],
+        },
+      },
+    ])
       .then((campaign) => {
-        if (campaign) {
-          res.status(200).json(campaign);
-        } else {
-          res.status(404).json({
-            msg: "No campaign Found",
-          });
-        }
+        res.status(200).json(campaign[0].campaign[0]);
       })
       .catch((err) => {
         res.status(500).json({
@@ -87,7 +123,6 @@ class CampaignController {
     let { merchantId, skip, limit } = req.query;
     skip = Number(skip);
     limit = Number(limit);
-    console.log({ merchantId, skip, limit });
     Campaign.aggregate([
       {
         $match: { merchantId: new ObjectId(merchantId) },

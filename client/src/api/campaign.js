@@ -35,6 +35,22 @@ const apiCampaign = {
           })
       }
     })
+  },
+  update({ query, body }) {
+    return new Promise((resolve, reject) => {
+      if (!query.merchantId) {
+        reject({ msg: 'provide merchantId' })
+      } else {
+        axios
+          .put(`${routeBase}/update?merchantId=${query.merchantId}&id=${query.id}`, body)
+          .then(({ data }) => {
+            resolve({ data })
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      }
+    })
   }
 }
 

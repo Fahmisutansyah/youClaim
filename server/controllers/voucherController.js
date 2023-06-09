@@ -1,6 +1,8 @@
 const { Voucher } = require("../models");
 const { customAlphabet } = require("nanoid");
 const alphanumeric = require("../helpers/lib/alphanumeric");
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 class VoucherController {
   static async create(req, res) {
@@ -74,6 +76,43 @@ class VoucherController {
     Voucher.find(query)
       .then((voucher) => {
         res.status(200).json(voucher);
+      })
+      .catch((err) => {
+        res.status(500).json({
+          msg: err.message,
+        });
+      });
+  }
+  static getPagi(req, res) {
+    let { campaignId, skip, limit } = req.query;
+    if (!skip || !limit) {
+      res.status(500).json({
+        mgs: "provide skip or limit",
+      });
+    }
+    skip = Number(skip);
+    limit = Number(limit);
+    Voucher.aggregate([
+      {
+        $match: {
+          campaignId: new ObjectId(campaignId),
+        },
+      },
+      {
+        $facet: {
+          vouchers: [
+            {
+              $skip: skip,
+            },
+            {
+              $limit: limit,
+            },
+          ],
+        },
+      },
+    ])
+      .then((vouchers) => {
+        res.status(200).json(vouchers[0].vouchers);
       })
       .catch((err) => {
         res.status(500).json({

@@ -12,5 +12,6 @@ route.use(Authentication);
 route.use(MerchantAuthentication);
 route.put("/", VoucherController.redeem);
 route.get("/", VoucherController.get);
+route.get("/pagi", VoucherController.getPagi);
 
 module.exports = route;

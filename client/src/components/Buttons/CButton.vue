@@ -3,6 +3,7 @@
     :variant="variant ? variant : 'flat'"
     :class="`c-button ${classProp}`"
     @click="onClick"
+    :color="color"
   >
     {{ text }}
   </v-btn>
@@ -15,7 +16,8 @@ export default {
     text: String,
     variant: String,
     onClick: Function,
-    classProp: String
+    classProp: String,
+    color: String
   },
 }
 </script>
