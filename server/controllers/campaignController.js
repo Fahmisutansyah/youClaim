@@ -8,29 +8,18 @@ class CampaignController {
   static create(req, res) {
     let decode = jwtUtil.decodeJwt(req.headers.token);
     let merchantName = res.locals.merchant.name;
-    const {
-      campaignName,
-      banner,
-      logo,
-      endDate,
-      slug,
-      description,
-      tnc,
-      waNumber,
-      isActive,
-    } = req.body;
+    const { campaignName, logo, endDate, slug, description, tnc, isActive } =
+      req.body;
     let tSlug = slugify(
       !slug ? `{${merchantName} ${campaignName}}` : `{${merchantName} ${slug}}`
     );
     let newCampaign = new Campaign({
       campaignName,
-      banner,
       logo,
       endDate,
       slug: tSlug,
       description,
       tnc,
-      waNumber,
       isActive,
       merchantId: req.query.merchantId,
       createdBy: decode.id,
@@ -127,6 +116,7 @@ class CampaignController {
       {
         $match: { merchantId: new ObjectId(merchantId) },
       },
+      { $sort: { createdAt: -1 } },
       {
         $facet: {
           allCampaign: [{ $count: "totalCampaign" }],

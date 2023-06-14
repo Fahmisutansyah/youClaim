@@ -7,9 +7,6 @@ const campaignSchema = new Schema(
       type: String,
       required: [true, "Tolong masukan judul untuk campaign"],
     },
-    banner: {
-      type: String,
-    },
     logo: {
       type: String,
     },
@@ -33,9 +30,6 @@ const campaignSchema = new Schema(
     isActive: {
       type: Boolean,
       default: false,
-    },
-    waNumber: {
-      type: String,
     },
     createdBy: {
       type: Schema.Types.ObjectId,

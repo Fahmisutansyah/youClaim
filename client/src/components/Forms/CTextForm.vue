@@ -9,6 +9,7 @@
     variant="outlined"
     class="mb-3"
     :type="type"
+    :counter="counter"
   />
 </template>
 
@@ -17,6 +18,10 @@ export default {
   name: "CTextForm",
   props: { 
     required: Boolean,
+    counter: {
+      type: Boolean,
+      default: false,
+    },
     value: {type: String, required: true},
     label: String,
     placeholder: String,

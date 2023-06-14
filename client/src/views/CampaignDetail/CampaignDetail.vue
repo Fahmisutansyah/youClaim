@@ -56,7 +56,27 @@ export default {
     return {
       campaignData: {},
       voucherData: [],
-      path: ["Home", "Dashboard", "Campaigns", "Detail"],
+      path: [
+        {
+          title: 'Home',
+          disabled: false,
+          href: 'dashboard'
+        },
+        {
+          title: 'Dashboard',
+          disabled: false,
+          href: 'dashboard'
+        },
+        {
+          title: 'Campaigns',
+          disabled: false,
+          href: 'dashboard'
+        },
+        {
+          title: 'Detail',
+          disabled: true
+        }
+      ],
       voucherPage: 1,
       totalVoucher: 0,
       totalRedeemed: 0

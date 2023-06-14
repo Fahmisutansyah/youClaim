@@ -4,6 +4,7 @@ import HomePage from '../views/Home/HomePage.vue'
 import DashboardView from '../views/Dashboard/DashboardView.vue'
 import userAuth from '../utils/userAuth'
 import CampaignDetail from '../views/CampaignDetail/CampaignDetail.vue'
+import CreateCampaign from '../views/CreateCampaign/CreateCampaign.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +40,12 @@ const router = createRouter({
           component: () => import('../views/CampaignDetail/CampaignDetail.vue')
         }
       ]
+    },
+    {
+      path: '/campaigns/new',
+      name: 'create campaign',
+      component: CreateCampaign,
+      meta: { auth: true }
     }
   ]
 })

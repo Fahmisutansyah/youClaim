@@ -4,6 +4,7 @@
     :class="`c-button ${classProp}`"
     @click="onClick"
     :color="color"
+    :type="type ? '' : type"
   >
     {{ text }}
   </v-btn>
@@ -17,7 +18,8 @@ export default {
     variant: String,
     onClick: Function,
     classProp: String,
-    color: String
+    color: String,
+    type: String,
   },
 }
 </script>

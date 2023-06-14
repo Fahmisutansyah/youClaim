@@ -33,7 +33,7 @@
               <span class="input__label ml-5">{{getActivation}}</span>
           </template>
         </v-switch>
-          <v-switch v-if="overlay" :model-value="!status" loading="info">
+        <v-switch v-if="overlay" :model-value="!status" loading="info">
           <template v-slot:label>
               <span class="input__label ml-5">{{getActivation}}</span>
           </template>
@@ -44,7 +44,7 @@
       </div>
       <div class="detail__item d-flex flex-row justify-space-between w-100">
         <p class="text-subtitle-2 w-75 text-info" id="campaign-link">{{getLink}}</p>
-        <v-btn icon="mdi-content-copy" size="small" @click="onCopy"></v-btn> -->
+        <v-btn icon="mdi-content-copy" size="small" @click="onCopy"></v-btn>
       </div>
     </div> 
     <div class="detail__tnc">

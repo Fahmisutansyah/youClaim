@@ -5,7 +5,16 @@
       <c-side-bar/>
       <div class="dashboard__content pa-4 d-flex align-center w-100">
         <div class="w-100 h-100 dashboard__content-container d-flex flex-column">
-          <c-page-header :merchantName="merchPayload.name" :pageName="'DASHBOARD'" :path="path"/>
+          <div class="d-flex flex-row justify-space-between align-end">
+            <c-page-header :merchantName="merchPayload.name" :pageName="'DASHBOARD'" :path="path"/>
+            <div class="mb-6">
+              <router-link to="/campaigns/new">
+                <v-btn variant="flat" color="info">
+                  Create New Campaign
+                </v-btn>
+              </router-link>
+            </div>
+          </div>
           <div class="dashboard__content-body mb-4">
             <campaign-table :data="this.campaigns"/>
           </div>
@@ -39,11 +48,27 @@ export default {
     CNavbar,
     CSideBar,
     CampaignTable,
-    CPageHeader
+    CPageHeader,
   },
   data(){
     return {
-      path: ["Home", "Dashboard", "Campaigns"],
+      path: [
+        {
+          title: 'Home',
+          disabled: false,
+          href: 'dashboard'
+        },
+        {
+          title: 'Dashboard',
+          disabled: false,
+          href: 'dashboard'
+        },
+        {
+          title: 'Campaigns',
+          disabled: true,
+          href: ''
+        }
+      ],
       campaigns: [],
       page: 1,
       totalCampaign: 0,
@@ -78,6 +103,7 @@ export default {
   },
   methods: {
     onChangePage(){
+      this.campaigns = []
       this.getCampaigns();
     },
     getCampaigns(){
