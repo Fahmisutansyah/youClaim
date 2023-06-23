@@ -1,9 +1,9 @@
 <template>
   <div class="c-sidebar">
     <div class="nav__buttons d-flex flex-column pt-5">
-      <div class="nav__item w-100" v-for="(name, index) in pageDict" :key="index">
-        <p :class="pageName === name ? 'nav__selected': ''">{{ captFirstLetter(name) }}</p>
-      </div>
+      <router-link :to="path" class="nav__item w-100" v-for="({name, path}, index) in pageDict" :key="index">
+          <p :class="pageName === name ? 'nav__selected': ''">{{ captFirstLetter(name) }}</p>
+      </router-link>
     </div>
   </div>
 </template>
@@ -17,7 +17,20 @@ export default {
   },
   data(){
     return {
-      pageDict: ['dashboard', 'campaigns'],
+      pageDict: [
+        {
+          name: 'dashboard', 
+          path: '/dashboard'
+        }, 
+        {
+          name: 'campaigns', 
+          path: '/dashboard'
+        }, 
+        {
+          name: 'merchant detail', 
+          path:"/merchants/detail"
+        }
+      ],
     }
   },
   computed: {

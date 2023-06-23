@@ -22,8 +22,8 @@ const vuetify = createVuetify({
 })
 
 const app = createApp(App).use(vuetify)
-
-app.use(VueSweetalert2, { confirmButtonColor: '#99DEC0' })
+// confirmButtonColor: '#99DEC0'
+app.use(VueSweetalert2, {})
 app.use(store)
 app.use(router)
 

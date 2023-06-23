@@ -36,12 +36,12 @@
           <template v-if="!isLoading">
             <template v-if="isLoggingIn">
               <c-button
-                :text="'Make a new account'"
-                :onClick="toggleLogIn"
-              />
-              <c-button
                 :text="'Login'"
                 :onClick="login"
+              />
+              <c-button
+                :text="'Make a new account'"
+                :onClick="toggleLogIn"
               />
             </template>
             <template v-if="!isLoggingIn">
@@ -76,7 +76,7 @@ export default {
       },
       rules: {
         required: value => !!value || 'Field is required',
-        passwordLength: value => value.length > 6 || 'Must be 6 characters'
+        passwordLength: value => value.length > 5 || 'Must be 6 characters'
       },
       isLoggingIn: true,
     }
@@ -116,9 +116,10 @@ export default {
             this.$swal({
               icon: 'error',
               title: 'Oops...',
-              text: 'Something went wrong'
+              text: 'Check your email and passsword'
             })
             console.log(err)
+            this.$store.commit('setLoadingFalse')
           })
         }
       })
@@ -130,21 +131,27 @@ export default {
           const {email, password} = this.form;
           apiUser.login(email, password).then(({data})=>{
             localStorage.setItem("token", data.token);
-            this.$store.dispatch('getPayload').then(()=>{
-              this.$router.push('/dashboard')
+            setTimeout(()=>{
               this.$store.commit('setLoadingFalse'); 
-            })
-            .catch(err=>{
-              console.log(err)
-            })
+              this.$router.push('/dashboard')
+            }, 1500)
           })
           .catch((err)=>{
-            this.$swal({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong'
-            })
+            if(err.response.status === 400){
+              this.$swal({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Check your email and passsword'
+              })
+            }else{
+              this.$swal({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong'
+              })
+            }
             console.log(err)
+            this.$store.commit('setLoadingFalse');
           })
         }else{
           this.$store.commit('setLoadingFalse');

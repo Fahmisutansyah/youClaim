@@ -4,7 +4,7 @@
     :class="`c-button ${classProp}`"
     @click="onClick"
     :color="color"
-    :type="type ? '' : type"
+    :density="density ? density : 'default'"
   >
     {{ text }}
   </v-btn>
@@ -19,7 +19,7 @@ export default {
     onClick: Function,
     classProp: String,
     color: String,
-    type: String,
+    density: String,
   },
 }
 </script>

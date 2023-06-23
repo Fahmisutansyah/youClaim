@@ -5,6 +5,8 @@ import DashboardView from '../views/Dashboard/DashboardView.vue'
 import userAuth from '../utils/userAuth'
 import CampaignDetail from '../views/CampaignDetail/CampaignDetail.vue'
 import CreateCampaign from '../views/CreateCampaign/CreateCampaign.vue'
+import CreateMerchant from '../views/CreateMerchant/CreateMerchant.vue'
+import MerchantDetail from '../views/MerchantDetail/MerchantDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,6 +47,18 @@ const router = createRouter({
       path: '/campaigns/new',
       name: 'create campaign',
       component: CreateCampaign,
+      meta: { auth: true }
+    },
+    {
+      path: '/merchants/new',
+      name: 'create merchant',
+      component: CreateMerchant,
+      meta: { auth: true }
+    },
+    {
+      path: '/merchants/detail',
+      name: 'merchant detail',
+      component: MerchantDetail,
       meta: { auth: true }
     }
   ]

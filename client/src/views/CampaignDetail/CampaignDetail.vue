@@ -60,22 +60,17 @@ export default {
         {
           title: 'Home',
           disabled: false,
-          href: 'dashboard'
+          href: '/dashboard'
         },
         {
           title: 'Dashboard',
           disabled: false,
-          href: 'dashboard'
+          href: '/dashboard'
         },
         {
-          title: 'Campaigns',
-          disabled: false,
-          href: 'dashboard'
+          title: 'Campaign Detail',
+          disabled: true,
         },
-        {
-          title: 'Detail',
-          disabled: true
-        }
       ],
       voucherPage: 1,
       totalVoucher: 0,

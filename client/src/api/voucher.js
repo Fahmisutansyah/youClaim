@@ -9,7 +9,11 @@ const apiVoucher = {
         reject({ msg: 'provide merchantId' })
       } else {
         axios
-          .get(`${routeBase}/?merchantId=${query.merchantId}`)
+          .get(`${routeBase}/?merchantId=${query.merchantId}`, {
+            headers: {
+              token: localStorage.token
+            }
+          })
           .then(({ data }) => {
             resolve({ data })
           })
@@ -27,7 +31,12 @@ const apiVoucher = {
         const skip = (page - 1) * 8
         axios
           .get(
-            `${routeBase}/pagi?merchantId=${merchantId}&campaignId=${campaignId}&skip=${skip}&limit=8`
+            `${routeBase}/pagi?merchantId=${merchantId}&campaignId=${campaignId}&skip=${skip}&limit=8`,
+            {
+              headers: {
+                token: localStorage.token
+              }
+            }
           )
           .then(({ data }) => {
             resolve({ data })

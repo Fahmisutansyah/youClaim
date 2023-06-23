@@ -1,8 +1,47 @@
 <script>
 import CButton from '../Buttons/CButton.vue'
+import apiUser from '@/api/user.js'
+
 export default {
   components: { CButton },
-  name: "CNavbar"
+  name: "CNavbar",
+  data(){
+    return{
+      isLoading: false
+    }
+  },
+  created(){
+    if(this.route?.meta.auth){
+      if(this.$store.getters.isPayloadEmpty){
+        this.$store.dispatch('getPayload')
+      }
+    }
+  },
+  computed: {
+    userData(){
+      return this.$store.state.userPayload
+    },
+    isLoggedIn(){
+      return localStorage.getItem('token')
+    }
+  },
+  methods: {
+    logOut(){
+      this.isLoading = true
+      apiUser.logout().then(()=>{
+        localStorage.removeItem('token')
+        this.$store.dispatch('logOut')
+        this.isLoading = false
+        this.$router.push('/')
+      })
+      .catch(err=>{
+        this.isLoading = false
+        console.log(err)
+      })
+
+
+    }
+  }
 }
 </script>
 
@@ -13,7 +52,11 @@ export default {
       <img src="../../assets/images/logo-text.png" class='logo__text'/>
     </div>
     <div class="action-container w-25 d-flex flex-row justify-end align-center">
-      <c-button :text="'Contact us'" :variant="'tonal'"/>
+      <template v-if="!isLoading">
+        <c-button v-if="!isLoggedIn" :text="'Contact us'" :variant="'tonal'"/>
+        <c-button v-else :text="'Log Out'" :variant="'tonal'" :onClick="logOut"/>
+      </template>
+      <v-progress-circular indeterminate color="info" v-else/>
     </div>
   </div>
 </template>

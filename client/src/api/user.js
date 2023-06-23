@@ -34,10 +34,26 @@ const apiUser = {
         })
     })
   },
+  logout() {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`${routeBase}/logout`)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          reject(err)
+        })
+    })
+  },
   getPayload() {
     return new Promise((resolve, reject) => {
       axios
-        .get(`${routeBase}/pl`)
+        .get(`${routeBase}/pl`, {
+          headers: {
+            token: localStorage.token
+          }
+        })
         .then(({ data }) => {
           resolve({ data })
         })
@@ -49,7 +65,11 @@ const apiUser = {
   getMerchantOwned() {
     return new Promise((resolve, reject) => {
       axios
-        .get(`${routeBase}/owned`)
+        .get(`${routeBase}/owned`, {
+          headers: {
+            token: localStorage.token
+          }
+        })
         .then(({ data }) => {
           resolve({ data })
         })

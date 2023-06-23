@@ -10,7 +10,11 @@ const apiCampaign = {
       } else {
         const skip = (page - 1) * 8
         axios
-          .get(`${routeBase}/page?merchantId=${merchantId}&limit=8&skip=${skip}`)
+          .get(`${routeBase}/page?merchantId=${merchantId}&limit=8&skip=${skip}`, {
+            headers: {
+              token: localStorage.token
+            }
+          })
           .then(({ data }) => {
             resolve({ data })
           })
@@ -26,7 +30,11 @@ const apiCampaign = {
         reject({ msg: 'provide merchantId' })
       } else {
         axios
-          .get(`${routeBase}/one?merchantId=${merchantId}&_id=${id}`)
+          .get(`${routeBase}/one?merchantId=${merchantId}&_id=${id}`, {
+            headers: {
+              token: localStorage.token
+            }
+          })
           .then(({ data }) => {
             resolve({ data })
           })
@@ -42,7 +50,11 @@ const apiCampaign = {
         reject({ msg: 'provide merchantId' })
       } else {
         axios
-          .put(`${routeBase}/update?merchantId=${query.merchantId}&id=${query.id}`, body)
+          .put(`${routeBase}/update?merchantId=${query.merchantId}&id=${query.id}`, body, {
+            headers: {
+              token: localStorage.token
+            }
+          })
           .then(({ data }) => {
             resolve({ data })
           })
@@ -58,7 +70,11 @@ const apiCampaign = {
         reject({ msg: 'provide merchantId' })
       } else {
         axios
-          .post(`${routeBase}/new?merchantId=${query.merchantId}`, body)
+          .post(`${routeBase}/new?merchantId=${query.merchantId}`, body, {
+            headers: {
+              token: localStorage.token
+            }
+          })
           .then(({ data }) => {
             resolve({ data })
           })

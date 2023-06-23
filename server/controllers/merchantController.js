@@ -1,5 +1,7 @@
 const { Merchant, User } = require("../models");
 const { jwtUtil } = require("../helpers/util");
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 class MerchantController {
   static create(req, res) {
@@ -25,14 +27,27 @@ class MerchantController {
   static userAddRequest(req, res) {
     let decode = jwtUtil.decodeJwt(req.headers.token);
     const { merchantId } = req.query;
-
-    Merchant.findByIdAndUpdate(merchantId, { $push: { requestId: decode.id } })
-      .then((merchant) => {
-        res.status(200).json(merchant);
-      })
-      .catch((err) => {
-        res.status(500).json({ msg: err.message });
-      });
+    Merchant.findById(merchantId).then((merchant) => {
+      const { employeeId, requestId } = merchant;
+      if (
+        requestId.includes(new ObjectId(decode.id)) ||
+        employeeId.includes(new ObjectId(decode.id))
+      ) {
+        res.status(404).json({
+          msg: "This user has already requested",
+        });
+      } else {
+        Merchant.findByIdAndUpdate(merchantId, {
+          $push: { requestId: decode.id },
+        })
+          .then((merchant) => {
+            res.status(200).json(merchant);
+          })
+          .catch((err) => {
+            res.status(500).json({ msg: err.message });
+          });
+      }
+    });
   }
   static emailAddRequest(req, res) {
     const { email } = req.body;
@@ -73,8 +88,7 @@ class MerchantController {
     }
   }
 
-  static getRequestList(req, res) {
-    let decode = jwtUtil.decodeJwt(req.headers.token);
+  static getList(req, res) {
     const { merchantId } = req.query;
     if (!merchantId) {
       res.status(400).json({
@@ -84,14 +98,67 @@ class MerchantController {
     }
     Merchant.findById(merchantId)
       .populate("requestId")
+      .populate("employeeId")
+      .populate("editorId")
       .then((merchant) => {
-        if (merchant.ownerId.toString() !== decode.id) {
-          res.status(403).json({
-            msg: "You are not authorized",
-          });
-          throw "Forbidden request";
+        let result = {
+          employees: merchant.employeeId,
+          requests: merchant.requestId,
+          editor: merchant.editorId,
+        };
+        res.status(200).json(result);
+      })
+      .catch((err) => {
+        res.status(500).json({
+          msg: err.message,
+        });
+      });
+  }
+  static updateEmployees(req, res) {
+    const { merchant } = res.locals;
+    const { userId } = req.body;
+    const { q } = req.query;
+    const isId = (element) => {
+      return element.toString() === userId;
+    };
+    Merchant.findById(merchant._id)
+      .then((dbMerchant) => {
+        if (q.includes("depromote")) {
+          if (!q.includes("editor")) {
+            dbMerchant.employeeId.push(dbMerchant.editorId);
+          }
+          dbMerchant.editorId = undefined;
+          dbMerchant
+            .save({ validateBeforeSave: false })
+            .then((savedMerchant) => {
+              res.status(200).json(savedMerchant);
+            })
+            .catch((err) => {
+              res.status(500).json({
+                msg: err.message,
+              });
+            });
+        } else {
+          const index = dbMerchant.employeeId.findIndex(isId);
+          if (index !== -1) {
+            if (q === "editor") {
+              dbMerchant.editorId = dbMerchant.employeeId[index];
+            }
+            dbMerchant.employeeId.splice(index, 1);
+            dbMerchant
+              .save({ validateBeforeSave: false })
+              .then((savedMerchant) => {
+                res.status(200).json(savedMerchant);
+              })
+              .catch((err) => {
+                res.status(500).json({
+                  msg: err.message,
+                });
+              });
+          } else {
+            throw { message: "no user id found in employee list" };
+          }
         }
-        res.status(200).json(merchant.requestId);
       })
       .catch((err) => {
         res.status(500).json({
@@ -103,14 +170,18 @@ class MerchantController {
   static acceptRequest(req, res) {
     const { merchant } = res.locals;
     const { userRequestId } = req.body;
+    const { q } = req.query;
     const isId = (element) => {
       return element.toString() === userRequestId;
     };
+    console.log(isId);
     Merchant.findById(merchant._id)
       .then((dbMerchant) => {
         const index = dbMerchant.requestId.findIndex(isId);
         if (index !== -1) {
-          dbMerchant.employeeId.push(dbMerchant.requestId[index]);
+          if (q === "accept") {
+            dbMerchant.employeeId.push(dbMerchant.requestId[index]);
+          }
           dbMerchant.requestId.splice(index, 1);
           dbMerchant
             .save({ validateBeforeSave: false })
@@ -125,6 +196,18 @@ class MerchantController {
         } else {
           throw { message: "no user id found in request list" };
         }
+      })
+      .catch((err) => {
+        res.status(500).json({
+          msg: err.message,
+        });
+      });
+  }
+  static querySearch(req, res) {
+    const { q } = req.query;
+    Merchant.find({ name: { $regex: q, $options: "i" } })
+      .then((result) => {
+        res.status(200).json(result);
       })
       .catch((err) => {
         res.status(500).json({

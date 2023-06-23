@@ -1,16 +1,15 @@
 const { User, Merchant } = require("../models");
 
 const { bcryptUtil, jwtUtil } = require("../helpers/util");
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 
 class UserController {
   static create(req, res, next) {
-    // console.log(req.body.merchantId);
-    console.log(req.body);
     let newUser = new User({
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      role: req.body.role,
     });
     newUser
       .save()
@@ -90,20 +89,45 @@ class UserController {
 
   static getMerchants(req, res) {
     let decode = jwtUtil.decodeJwt(req.headers.token);
-    Merchant.findOne({
-      ownerId: decode.id,
-    })
-      .then((merchant) => {
-        if (!merchant) {
-          throw { message: "No merchant found owned by this user" };
+    Merchant.find()
+      .where({
+        $and: [
+          {
+            $or: [
+              {
+                employeeId: new ObjectId(decode.id),
+              },
+              {
+                requestId: new ObjectId(decode.id),
+              },
+              {
+                ownerId: new ObjectId(decode.id),
+              },
+            ],
+          },
+        ],
+      })
+      .then((result) => {
+        if (result.length > 0) {
+          res.status(200).json(result[0]);
+        } else {
+          throw { message: "No Merchant Found" };
         }
-        res.status(200).json(merchant);
       })
       .catch((err) => {
-        res.status(500).json({
-          msg: err.message,
-        });
+        if (err.message === "No Merchant Found") {
+          res.status(404).json({
+            msg: err.message,
+          });
+        } else {
+          res.status(500).json({
+            msg: err.message,
+          });
+        }
       });
+  }
+  static logout(req, res) {
+    res.status(200).json({ msg: "success logout" });
   }
 }
 

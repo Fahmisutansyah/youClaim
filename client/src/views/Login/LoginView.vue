@@ -3,11 +3,12 @@
     <c-navbar/>
     <div class="container__login d-flex justify-center align-center">
       <div class="w-50">
-        <div class="d-flex justify-center align-center mb-7">
+        <div class="d-flex justify-center align-center flex-column">
           <img
             src="../../assets/images/youclaim-logo-final.png"
-            class="container__logo-form"
+            class="container__logo-form mb-4"
           />
+          <p class="text-subtitle-2">Welcome to YouClaim you may login or register.</p>
         </div>
         <login-form/>
       </div>

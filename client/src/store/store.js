@@ -7,7 +7,8 @@ const store = createStore({
     return {
       isLoading: false,
       userPayload: {},
-      merchPayload: {}
+      merchPayload: null,
+      isLoggedIn: false
     }
   },
   mutations: {
@@ -18,9 +19,11 @@ const store = createStore({
       state.isLoading = true
     },
     setUserPayload(state, data) {
+      state.isLoggedIn = true
       state.userPayload = data
     },
     clearUserPayload(state) {
+      state.isLoggedIn = false
       state.userPayload = {}
     },
     setMerchPayload(state, data) {
@@ -34,6 +37,9 @@ const store = createStore({
     userPayload: (state) => state.userPayload,
     isPayloadEmpty: (state) => {
       return isObjectEmpty(state.userPayload)
+    },
+    isMerchantEmpty: (state) => {
+      return state.merchPayload == null
     }
   },
   actions: {
@@ -49,6 +55,23 @@ const store = createStore({
             reject(err)
           })
       })
+    },
+    getMerchantPayload({ commit }) {
+      return new Promise((resolve, reject) => {
+        apiUser
+          .getMerchantOwned()
+          .then(({ data }) => {
+            commit('setMerchPayload', data)
+            resolve({ data })
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    logOut({ commit }) {
+      commit('clearUserPayload')
+      commit('clearMerchPayload')
     }
   }
 })
