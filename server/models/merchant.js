@@ -46,6 +46,24 @@ merchantSchema.path("name").validate(function (value) {
   });
 }, "Name is taken!");
 
+merchantSchema.path("ownerId").validate(function (value) {
+  return new Promise(function (resolve, reject) {
+    Merchant.findOne({
+      ownerId: value,
+    })
+      .then((merchant) => {
+        if (merchant) {
+          resolve(false);
+        } else {
+          resolve(true);
+        }
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+});
+
 let Merchant = mongoose.model("Merchant", merchantSchema);
 
 module.exports = Merchant;

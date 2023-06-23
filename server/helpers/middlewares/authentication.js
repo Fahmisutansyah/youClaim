@@ -3,7 +3,6 @@ const { User, Merchant } = require("../../models");
 
 function Authentication(req, res, next) {
   console.log("authenticating");
-
   let decode = "";
   try {
     decode = jwtUtil.decodeJwt(req.headers.token);
@@ -50,8 +49,7 @@ function MerchantAuthentication(req, res, next) {
     Merchant.findById(req.query.merchantId).then((merchant) => {
       if (
         merchant &&
-        (merchant.ownerId.toString() === loggedUser.id.toString() ||
-          merchant.employeeId.find(loggedUser.id.toString()))
+        merchant.ownerId.toString() === loggedUser.id.toString()
       ) {
         res.locals.merchant = merchant;
         next();

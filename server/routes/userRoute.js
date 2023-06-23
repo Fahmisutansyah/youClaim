@@ -5,6 +5,7 @@ const { Authentication } = require("../helpers/middlewares/authentication");
 
 route.post("/", UserController.create);
 route.post("/login", UserController.login);
+route.get("/logout", UserController.logout);
 route.use(Authentication);
 route.get("/pl", UserController.getPayload);
 route.get("/owned", UserController.getMerchants);

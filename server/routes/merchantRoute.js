@@ -8,9 +8,11 @@ const { MerchantController } = require("../controllers");
 
 route.use(Authentication);
 route.post("/", MerchantController.create);
+route.get("/search", MerchantController.querySearch);
 route.patch("/requestby/id", MerchantController.userAddRequest);
 route.use(MerchantAuthentication);
-route.get("/requestlist", MerchantController.getRequestList);
+route.get("/requestlist", MerchantController.getList);
 route.patch("/requestby/email", MerchantController.emailAddRequest);
 route.patch("/request/accept", MerchantController.acceptRequest);
+route.patch("/employee", MerchantController.updateEmployees);
 module.exports = route;
