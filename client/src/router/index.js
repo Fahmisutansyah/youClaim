@@ -7,6 +7,7 @@ import CampaignDetail from '../views/CampaignDetail/CampaignDetail.vue'
 import CreateCampaign from '../views/CreateCampaign/CreateCampaign.vue'
 import CreateMerchant from '../views/CreateMerchant/CreateMerchant.vue'
 import MerchantDetail from '../views/MerchantDetail/MerchantDetail.vue'
+import EditMerchant from '../views/EditMerchant/EditMerchant.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,6 +60,12 @@ const router = createRouter({
       path: '/merchants/detail',
       name: 'merchant detail',
       component: MerchantDetail,
+      meta: { auth: true }
+    },
+    {
+      path: '/merchants/detail/edit',
+      name: 'merchant edit',
+      component: EditMerchant,
       meta: { auth: true }
     }
   ]

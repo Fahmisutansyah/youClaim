@@ -24,6 +24,29 @@ class MerchantController {
         });
       });
   }
+  static update(req, res) {
+    const { merchantId } = req.query;
+    Merchant.findById(merchantId).then((merchant) => {
+      for (const field in merchant) {
+        for (const item in req.body.payload) {
+          if (item === field) {
+            merchant[field] = req.body.payload[item];
+            break;
+          }
+        }
+      }
+      merchant
+        .save({ validateBeforeSave: false })
+        .then((savedMerchant) => {
+          res.status(200).json(savedMerchant);
+        })
+        .catch((err) => {
+          res.status(500).json({
+            msg: err.message,
+          });
+        });
+    });
+  }
   static userAddRequest(req, res) {
     let decode = jwtUtil.decodeJwt(req.headers.token);
     const { merchantId } = req.query;
@@ -174,7 +197,6 @@ class MerchantController {
     const isId = (element) => {
       return element.toString() === userRequestId;
     };
-    console.log(isId);
     Merchant.findById(merchant._id)
       .then((dbMerchant) => {
         const index = dbMerchant.requestId.findIndex(isId);

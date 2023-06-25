@@ -66,9 +66,6 @@ export default {
     height: 100%;
     flex: 2;
   }
-  &__image{
-    
-  }
   .headline{
     color: #273C5E !important;
   }

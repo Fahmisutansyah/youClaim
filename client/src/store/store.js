@@ -30,7 +30,7 @@ const store = createStore({
       state.merchPayload = data
     },
     clearMerchPayload(state) {
-      state.merchPayload = {}
+      state.merchPayload = null
     }
   },
   getters: {

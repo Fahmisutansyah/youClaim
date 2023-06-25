@@ -52,9 +52,13 @@ export default {
       <img src="../../assets/images/logo-text.png" class='logo__text'/>
     </div>
     <div class="action-container w-25 d-flex flex-row justify-end align-center">
+
       <template v-if="!isLoading">
         <c-button v-if="!isLoggedIn" :text="'Contact us'" :variant="'tonal'"/>
-        <c-button v-else :text="'Log Out'" :variant="'tonal'" :onClick="logOut"/>
+        <div class="d-flex flex-row align-center" v-else>
+          <p class="mr-4">Hello, {{userData.name}}</p>
+          <c-button :text="'Log Out'" :variant="'tonal'" :onClick="logOut"/>
+        </div>
       </template>
       <v-progress-circular indeterminate color="info" v-else/>
     </div>

@@ -2,7 +2,7 @@
   <div class="dashboard__content-container__header mb-4">
     <div class="d-flex flex-row align-center">
       <p class="text-h4 font-weight-light mb-3 mr-5" v-if="!isInMerchant">{{ merchantName }}</p>
-      <router-link v-if="!isInMerchant" to="/merchants/detail">
+      <router-link v-if="!isInMerchant && role === 'owner'" to="/merchants/detail">
         <c-button :text="'View merchant detail'" :density="'compact'"/>
       </router-link>
     </div>
@@ -32,6 +32,9 @@ export default {
     },
     path: {
       type: Array,
+    },
+    role: {
+      type: String
     }
   },
   computed: {

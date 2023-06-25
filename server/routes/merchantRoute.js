@@ -15,4 +15,5 @@ route.get("/requestlist", MerchantController.getList);
 route.patch("/requestby/email", MerchantController.emailAddRequest);
 route.patch("/request/accept", MerchantController.acceptRequest);
 route.patch("/employee", MerchantController.updateEmployees);
+route.patch("/", MerchantController.update);
 module.exports = route;

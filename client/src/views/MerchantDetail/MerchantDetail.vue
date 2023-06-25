@@ -6,7 +6,7 @@
       <div class="d-flex justify-center" v-if="isLoading">
         <v-progress-circular indeterminate color="info"/>
       </div>
-      <employee-card 
+      <employee-card
         v-else
         :employeeList="employeeList"
         :requestList="requestList"

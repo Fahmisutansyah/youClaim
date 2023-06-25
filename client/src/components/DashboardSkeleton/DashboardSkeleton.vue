@@ -25,11 +25,7 @@ export default {
   flex: 2;
   background-color: #eeeeee;
 }
-.dashboard{
-  &__content-container{
-    // background-color: white;
-  }
-}
+
 .v-breadcrumbs{
   color: black !important;
   padding: 0;

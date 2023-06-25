@@ -114,6 +114,28 @@ const apiMerchant = {
           reject(err)
         })
     })
+  },
+  update({ merchantId, payload }) {
+    return new Promise((resolve, reject) => {
+      axios
+        .patch(
+          `${routeBase}?merchantId=${merchantId}`,
+          {
+            payload
+          },
+          {
+            headers: {
+              token: localStorage.token
+            }
+          }
+        )
+        .then(({ data }) => {
+          resolve({ data })
+        })
+        .catch((err) => {
+          reject(err)
+        })
+    })
   }
   //BIKIN API BUAT UPDATAE EMPLOUYEE
 }

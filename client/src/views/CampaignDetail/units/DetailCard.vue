@@ -49,7 +49,7 @@
     </div> 
     <div class="detail__tnc">
       <p class="text-subtitle-1">Terms and Condition</p>
-      <div v-html="this.campaignData.tnc"></div>
+      <div v-html="this.campaignData.tnc" class="px-4"></div>
     </div>
     <v-overlay v-model="overlay" class="align-center justify-center">
       <div class="overlay__card justify-center align-center d-flex flex-column">

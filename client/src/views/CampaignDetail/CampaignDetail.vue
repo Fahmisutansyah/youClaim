@@ -141,11 +141,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.campaign{
-  &__content{
-    // height: 200px;
-  }
-}
 .voucher{
   &__table-container{
     background-color: white;

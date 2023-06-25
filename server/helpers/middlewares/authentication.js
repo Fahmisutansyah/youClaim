@@ -47,12 +47,14 @@ function MerchantAuthentication(req, res, next) {
     });
   } else if (loggedUser) {
     Merchant.findById(req.query.merchantId).then((merchant) => {
-      if (
-        merchant &&
-        merchant.ownerId.toString() === loggedUser.id.toString()
-      ) {
-        res.locals.merchant = merchant;
-        next();
+      if (merchant) {
+        if (
+          merchant.ownerId.toString() === loggedUser.id.toString() ||
+          merchant.editorId.toString() === loggedUser.id.toString()
+        ) {
+          res.locals.merchant = merchant;
+          next();
+        }
       } else if (!merchant) {
         console.log("merchant not found");
         res.status(404).json({

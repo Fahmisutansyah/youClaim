@@ -5,10 +5,11 @@
       <c-side-bar/>
       <no-merchant-view v-if="noMerchant" @on-success="onSuccessRequest"/>
       <requesting-view v-else-if="checkEmployment === 'request'"/>
+      <employee-view v-else-if="checkEmployment === 'employee'"/>
       <div v-else class="dashboard__content pa-4 d-flex align-center w-100">
         <div class="w-100 h-100 dashboard__content-container d-flex flex-column">
           <div class="d-flex flex-row justify-space-between align-end">
-            <c-page-header :merchantName="merchPayload?.name" :pageName="'DASHBOARD'" :path="path"/>
+            <c-page-header :merchantName="merchPayload?.name" :role="checkEmployment" :pageName="'DASHBOARD'" :path="path"/>
             <div class="mb-6">
               <router-link to="/campaigns/new">
                 <v-btn variant="flat" color="info">
@@ -45,6 +46,7 @@ import CampaignTable from './units/CampaignTable.vue'
 import CPageHeader from '../../components/PageHeader/CPageHeader.vue'
 import NoMerchantView from './units/NoMerchantView.vue'
 import RequestingView from './units/RequestingView.vue'
+import EmployeeView from './units/EmployeeView.vue'
 
 export default {
   name: 'DashboardView',
@@ -54,7 +56,8 @@ export default {
     CampaignTable,
     CPageHeader,
     NoMerchantView,
-    RequestingView
+    RequestingView,
+    EmployeeView
   },
   data(){
     return {
@@ -99,11 +102,12 @@ export default {
   },
   computed: {
     checkEmployment(){
+      
       if(this.$store.state.merchPayload.ownerId === this.userPayload._id){
         return 'owner'
-      }else if(this.$store.state.merchPayload.employeeId.includes(this.userPayload._id)){
+      }else if(this.$store.state.merchPayload?.employeeId.includes(this.userPayload._id)){
         return 'employee'
-      }else if(this.$store.state.merchPayload.requestId.includes(this.userPayload._id)){
+      }else if(this.$store.state.merchPayload?.requestId.includes(this.userPayload._id)){
         return 'request'
       }else if(this.$store.state.merchPayload?.editorId === this.userPayload._id){
         return 'editor'
@@ -150,6 +154,7 @@ export default {
         this.$store.commit('setMerchPayload', data)
         this.isViewReady = true
         if(data){
+          
           if(this.checkEmployment === 'editor' || this.checkEmployment === 'owner'){
             this.getCampaigns()
           }
@@ -174,9 +179,6 @@ export default {
   background-color: #eeeeee;
 }
 .dashboard{
-  &__content-container{
-    // background-color: white;
-  }
   &__content-body{
     height: 60vh;
   }

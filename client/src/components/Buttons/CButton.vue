@@ -5,6 +5,7 @@
     @click="onClick"
     :color="color"
     :density="density ? density : 'default'"
+    :disabled="disabled ? disabled : false"
   >
     {{ text }}
   </v-btn>
@@ -20,17 +21,12 @@ export default {
     classProp: String,
     color: String,
     density: String,
+    disabled: Boolean
   },
 }
 </script>
 
 <style lang="scss" scoped>
-  .c-button {
-    // background-color: #5046E4 !important;
-  }
-  .v-btn--variant-flat{
-    // background-color: #4895ef !important;
-  }
   .v-btn--variant-tonal{
     color: black !important
   }

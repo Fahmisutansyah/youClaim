@@ -111,6 +111,9 @@ export default {
               title: `Hello, ${data.name}! You have successfully created an account.`,
               text: 'Now you may log in',
             })
+            .then(()=>{
+              this.isLoggingIn = true
+            })
           })
           .catch(err=>{
             this.$swal({

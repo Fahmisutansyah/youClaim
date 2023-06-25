@@ -1,7 +1,7 @@
 <template>
   <v-text-field 
     :value="value"
-    @input="$emit('update', {value: $event.target.value, stateName})"
+    @input="$emit('update', {value: $event.target.value, stateName, event: $event.target})"
     :label="label ? label : ''"
     :placeholder="placeholder ? placeholder : ''"
     :rules="rules"
@@ -10,6 +10,7 @@
     class="mb-3"
     :type="type"
     :counter="counter"
+    :active="active"
   />
 </template>
 
@@ -31,6 +32,10 @@ export default {
     type: {
       type: String,
       default: "input"
+    },
+    active: {
+      type: Boolean,
+      default: false
     }
   },
   data(){

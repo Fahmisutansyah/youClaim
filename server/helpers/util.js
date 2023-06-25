@@ -11,12 +11,12 @@ const bcryptUtil = {
 };
 const jwtUtil = {
   generateJwt(obj) {
-    return jwt.sign({ email: obj.email, id: obj.id }, "jwt");
+    return jwt.sign({ email: obj.email, id: obj.id }, process.env.JWT_KEY);
   },
   decodeJwt(token) {
     // JWT KEY SHOULD BE PUT IN env file
     try {
-      return jwt.verify(token, "jwt");
+      return jwt.verify(token, process.env.JWT_KEY);
     } catch (err) {
       throw new Error(err.message);
     }

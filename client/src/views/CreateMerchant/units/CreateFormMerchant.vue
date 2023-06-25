@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import CButton from '../../../components/Buttons/CButton.vue'
-import CTextForm from '../../../components/Forms/CTextForm.vue'
+import CButton from '@/components/Buttons/CButton.vue'
+import CTextForm from '@/components/Forms/CTextForm.vue'
 
 import apiMerchant from '@/api/merchant.js'
 
@@ -52,16 +52,6 @@ export default {
       },
       isLoading: false
     }
-  },
-  created(){
-    // if(this.$store.getters.isPayloadEmpty){
-    //   this.$store.dispatch('getPayload')
-    // }
-  },
-  computed: {
-    // userData(){
-    //   return this.$store.state.userPayload
-    // }
   },
   methods: {
     update(param){

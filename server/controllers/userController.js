@@ -103,6 +103,9 @@ class UserController {
               {
                 ownerId: new ObjectId(decode.id),
               },
+              {
+                editorId: new ObjectId(decode.id),
+              },
             ],
           },
         ],
