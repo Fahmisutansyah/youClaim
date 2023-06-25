@@ -1,5 +1,8 @@
 /* eslint-disable no-useless-escape */
 export function isObjectEmpty(objectName) {
+  if (!objectName) {
+    return true
+  }
   return Object.keys(objectName).length === 0
 }
 export function capitalizeFirstLetter(string) {

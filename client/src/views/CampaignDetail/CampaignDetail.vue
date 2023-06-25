@@ -1,7 +1,7 @@
 <template>
   <dashboard-skeleton>
     <div class="campaign__container d-flex flex-column pa-4">
-      <c-page-header :merchantName="merchPayload.name" :pageName="'CAMPAIGN DETAIL'" :path="path"/>
+      <c-page-header :merchantName="merchPayload?.name" :pageName="'CAMPAIGN DETAIL'" :path="path"/>
       <div class="campaign__content d-flex flex-row mb-6">
         <div class="campaign__content-left w-50">
           <detail-card 
