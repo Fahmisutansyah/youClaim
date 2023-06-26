@@ -100,9 +100,9 @@ export default {
       this.isLoggingIn = !this.isLoggingIn;
     },
     submitForm(){
-      this.$store.commit('setLoadingTrue');
       this.$refs.form.validate().then(({valid})=>{
         if(valid){
+          this.$store.commit('setLoadingTrue');
           const {name, email, password} = this.form
           apiUser.create(name, email, password).then(({data})=>{
             this.$store.commit('setLoadingFalse'); 
@@ -128,9 +128,9 @@ export default {
       })
     },
     login(){
-      this.$store.commit('setLoadingTrue');
       this.$refs.form.validate().then(({valid})=>{
         if(valid){
+          this.$store.commit('setLoadingTrue');
           const {email, password} = this.form;
           apiUser.login(email, password).then(({data})=>{
             localStorage.setItem("token", data.token);

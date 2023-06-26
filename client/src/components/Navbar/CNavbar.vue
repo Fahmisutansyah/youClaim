@@ -27,17 +27,29 @@ export default {
   },
   methods: {
     logOut(){
-      this.isLoading = true
-      apiUser.logout().then(()=>{
-        localStorage.removeItem('token')
-        this.$store.dispatch('logOut')
-        this.isLoading = false
-        this.$router.push('/')
+      this.$swal({
+        icon: 'warning',
+        title: `Log Out`,
+        text: `Are you sure you want to log out?`,
+        showCancelButton: true,
+        confirmButtonText: `Yes, I'm sure!`
       })
-      .catch(err=>{
-        this.isLoading = false
-        console.log(err)
+      .then((res)=>{
+        if(res.isConfirmed){
+            this.isLoading = true
+            apiUser.logout().then(()=>{
+            localStorage.removeItem('token')
+            this.$store.dispatch('logOut')
+            this.isLoading = false
+            this.$router.push('/')
+          })
+          .catch(err=>{
+            this.isLoading = false
+            console.log(err)
+          })
+        }
       })
+
 
 
     }

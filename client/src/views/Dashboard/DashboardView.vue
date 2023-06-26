@@ -2,7 +2,7 @@
   <div class="h-100 d-flex flex-column">
     <c-navbar/>
     <div class="dashboard-container d-flex flex-row" v-if="isViewReady">
-      <c-side-bar/>
+      <c-side-bar v-if="checkEmployment == 'editor' || checkEmployment == 'owner'"/>
       <no-merchant-view v-if="noMerchant" @on-success="onSuccessRequest"/>
       <requesting-view v-else-if="checkEmployment === 'request'"/>
       <employee-view v-else-if="checkEmployment === 'employee'"/>
@@ -103,7 +103,7 @@ export default {
   computed: {
     checkEmployment(){
       
-      if(this.$store.state.merchPayload.ownerId === this.userPayload._id){
+      if(this.$store.state.merchPayload?.ownerId === this.userPayload._id){
         return 'owner'
       }else if(this.$store.state.merchPayload?.employeeId.includes(this.userPayload._id)){
         return 'employee'

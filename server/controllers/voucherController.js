@@ -6,8 +6,15 @@ const ObjectId = mongoose.Types.ObjectId;
 
 class VoucherController {
   static async create(req, res) {
-    const { campaignId, name, address, gender, age, phoneNumber, email } =
-      req.body;
+    const {
+      campaignId,
+      customerName,
+      address,
+      gender,
+      age,
+      phoneNumber,
+      email,
+    } = req.body;
     const nanoid = customAlphabet(alphanumeric, 7);
     let uniqueCode = "";
     async function checkUnique() {
@@ -25,7 +32,7 @@ class VoucherController {
     let newVoucher = new Voucher({
       uniqueCode,
       campaignId,
-      name,
+      customerName,
       address,
       gender,
       age,

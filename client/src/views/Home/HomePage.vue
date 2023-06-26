@@ -44,7 +44,7 @@ export default {
         </div>
         <div>
         <router-link to="/login">
-          <c-button :text="'Get Started'" variant="flat"/>
+          <c-button :text="'Get Started'" :variant="'tonal'"/>
         </router-link>
         </div>
       </div>
