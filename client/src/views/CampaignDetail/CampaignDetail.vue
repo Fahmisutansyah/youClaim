@@ -29,7 +29,7 @@
           Vouchers
         </v-tab>
         <v-tab value="two">
-          User
+          Customer
         </v-tab>
       </v-tabs>
       <v-window v-model="tab" v-if="voucherData.length > 0">
