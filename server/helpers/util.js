@@ -13,6 +13,18 @@ const jwtUtil = {
   generateJwt(obj) {
     return jwt.sign({ email: obj.email, id: obj.id }, process.env.JWT_KEY);
   },
+  generateJwtSlug(obj) {
+    return jwt.sign({ campaignId: obj.campaignId }, obj.campaignId, {
+      expiresIn: `1d`,
+    });
+  },
+  decodeJwtSlug(token, campaignId) {
+    try {
+      return jwt.verify(token, campaignId);
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  },
   decodeJwt(token) {
     // JWT KEY SHOULD BE PUT IN env file
     try {

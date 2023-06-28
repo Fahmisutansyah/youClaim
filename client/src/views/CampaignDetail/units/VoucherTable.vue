@@ -100,11 +100,11 @@ export default {
       return camelCaseToWords(str)
     },
     isCustomerAvailable(voucher){
-      const { customerName, age, customerEmail, domicile, gender, phoneNumber } = voucher;
+      const { customerName, age, customerEmail, address, gender, phoneNumber } = voucher;
       if(!customerName 
       && !age 
       && !customerEmail 
-      && !domicile 
+      && !address 
       && !gender 
       && !phoneNumber){
         return false

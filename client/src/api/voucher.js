@@ -23,6 +23,26 @@ const apiVoucher = {
       }
     })
   },
+  getCustomer({ merchantId, campaignId }) {
+    return new Promise((resolve, reject) => {
+      if (!merchantId) {
+        reject({ msg: 'please check query' })
+      } else {
+        axios
+          .get(`${routeBase}/cust?merchantId=${merchantId}&campaignId=${campaignId}`, {
+            headers: {
+              token: localStorage.token
+            }
+          })
+          .then(({ data }) => {
+            resolve({ data })
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      }
+    })
+  },
   getVoucherPagi({ page, campaignId, merchantId }) {
     return new Promise((resolve, reject) => {
       if (!merchantId || !page || !campaignId) {

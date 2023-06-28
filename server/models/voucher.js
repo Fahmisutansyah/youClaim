@@ -23,7 +23,7 @@ const voucherSchema = new Schema(
     customerName: {
       type: String,
     },
-    domicile: {
+    address: {
       type: String,
     },
     gender: {

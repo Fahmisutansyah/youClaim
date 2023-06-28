@@ -1,7 +1,7 @@
 <template>
   <div class="detail__card pa-4">
     <div class="detail__header d-flex flex-row">
-      <div class="logo-container d-flex justify-center align-center">
+      <div class="logo-container d-flex justify-center align-center" v-if="campaignData.logo">
         <img :src="campaignData.logo" class="detail__logo"/>
       </div>
       <div class="d-flex flex-column">
@@ -118,7 +118,7 @@ export default {
       return moment(this.campaignData.endDate).format('LL')
     },
     getLink(){
-      return `http://localhost:8080/claim/${this.campaignData.slug}`
+      return `http://localhost:8081/claim/${this.campaignData.slug}`
     },
     getActivation(){
       return this.status ? "Active" : "Inactive"

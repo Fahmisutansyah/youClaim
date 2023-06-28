@@ -7,6 +7,7 @@ const {
 
 const { CampaignController } = require("../controllers");
 
+route.get("/id", CampaignController.getIdBySlug);
 route.use(Authentication);
 route.get("/one", CampaignController.getOne);
 route.get("/get", CampaignController.get);

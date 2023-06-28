@@ -9,9 +9,10 @@ const { VoucherController } = require("../controllers");
 
 route.post("/", VoucherController.create);
 route.use(Authentication);
-route.use(MerchantAuthentication);
 route.put("/", VoucherController.redeem);
+route.use(MerchantAuthentication);
 route.get("/", VoucherController.get);
 route.get("/pagi", VoucherController.getPagi);
+route.get("/cust", VoucherController.getCustomer);
 
 module.exports = route;

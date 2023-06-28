@@ -41,7 +41,7 @@ function Authentication(req, res, next) {
 //FE STORE MERCHANTID WHEN LOGGED IN
 function MerchantAuthentication(req, res, next) {
   const { loggedUser } = res.locals;
-  if (req.query.merchantId.length !== 24) {
+  if (req.query.merchantId?.length !== 24) {
     res.status(404).json({
       msg: "Invalid merchantId",
     });
