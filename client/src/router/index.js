@@ -79,7 +79,11 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    next()
+    if (userAuth.isTokenAv()) {
+      next('/dashboard')
+    } else {
+      next()
+    }
   }
 })
 
