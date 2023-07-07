@@ -18,7 +18,7 @@
           @update="update"
           :placeholder="'johndoe@mail.com'"
           :stateName="'email'"
-          :rules="[rules.required]"
+          :rules="[rules.isRequired, rules.isEmail]"
 
         />
         <c-text-form
@@ -76,7 +76,13 @@ export default {
       },
       rules: {
         required: value => !!value || 'Field is required',
-        passwordLength: value => value.length > 5 || 'Must be 6 characters'
+        passwordLength: value => value.length > 5 || 'Must be 6 characters',
+        isEmail: () =>{
+          // eslint-disable-next-line no-useless-escape
+          let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+          
+          return regex.test(this.form.email) || 'Invalid email'
+        }
       },
       isLoggingIn: true,
     }
@@ -89,7 +95,7 @@ export default {
   computed: {
     isLoading(){
       return this.$store.state.isLoading
-    }
+    },
   },
   methods: {
     update(param){

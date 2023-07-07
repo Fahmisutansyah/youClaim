@@ -20,54 +20,55 @@
           <qr-preview :campaignDetail="campaignData"/>
         </div>
       </div>
-      <v-tabs
-        v-model="tab"
-        bg-color="white"
-        fixed-tabs
-      >
-        <v-tab value="one">
-          Vouchers
-        </v-tab>
-        <v-tab value="two">
-          Customer
-        </v-tab>
-      </v-tabs>
-      <v-window v-model="tab" v-if="voucherData.length > 0">
-        <v-window-item value="one">
-          <div class="campaign__voucher-table" v-if="voucherData.length > 0">
-            <p class="text-caption ml-1 my-2">Total Voucher: <b>{{totalVoucher}}</b> Total Page: <b>{{pagiLength}}</b></p>
-            <div class="voucher__table-container mb-4">
-              <voucher-table :vouchers="voucherData"/>
+      <template v-if="voucherData.length > 0">
+        <v-tabs
+          v-model="tab"
+          bg-color="white"
+          fixed-tabs
+        >
+          <v-tab value="one">
+            Vouchers
+          </v-tab>
+          <v-tab value="two">
+            Customer
+          </v-tab>
+        </v-tabs>
+        <v-window v-model="tab">
+          <v-window-item value="one">
+            <div class="campaign__voucher-table" v-if="voucherData.length > 0">
+              <p class="text-caption ml-1 my-2">Total Voucher: <b>{{totalVoucher}}</b> Total Page: <b>{{pagiLength}}</b></p>
+              <div class="voucher__table-container mb-4">
+                <voucher-table :vouchers="voucherData"/>
+              </div>
+              <v-pagination 
+                :length="pagiLength" 
+                :total-visible="1" 
+                v-model="voucherPage" 
+                @next="onChangePage" 
+                @prev="onChangePage"
+                color="black"
+              />
             </div>
-            <v-pagination 
-              :length="pagiLength" 
-              :total-visible="1" 
-              v-model="voucherPage" 
-              @next="onChangePage" 
-              @prev="onChangePage"
-              color="black"
-            />
-          </div>
-        </v-window-item>
-        <v-window-item value="two">
-          <div class="campaign__customer-table">
-            <p class="text-caption ml-1 my-2">Total Customer Data: <b>{{totalCustomer}}</b> Total Page: <b>{{pagiCustomerLength}}</b></p>
-            <div class="customer-table__container mb-4">
-              <customer-table :users="customerData[customerPage-1]"/>
+          </v-window-item>
+          <v-window-item value="two">
+            <div class="campaign__customer-table">
+              <p class="text-caption ml-1 my-2">Total Customer Data: <b>{{totalCustomer}}</b> Total Page: <b>{{pagiCustomerLength}}</b></p>
+              <div class="customer-table__container mb-4">
+                <customer-table :users="customerData[customerPage-1]"/>
+              </div>
+              <v-pagination 
+                :length="customerData.length" 
+                :total-visible="1" 
+                v-model="customerPage" 
+                color="black"
+              />
             </div>
-            <v-pagination 
-              :length="customerData.length" 
-              :total-visible="1" 
-              v-model="customerPage" 
-              color="black"
-            />
-          </div>
-        </v-window-item>
-      </v-window>
+          </v-window-item>
+        </v-window>
+      </template>
       <div class="campaign__voucher-table w-100" v-else>
         <p class="text-h6 text-center mb-2">There are no vouchers generated yet!</p>
       </div>
-
     </div>
   </dashboard-skeleton>
 </template>

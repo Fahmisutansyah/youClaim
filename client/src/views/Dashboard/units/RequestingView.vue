@@ -5,7 +5,7 @@
         You are requesting to {{merchPayload.name}}
       </p>
       <p class="text-h6 ">
-        There's is not much you can do.
+        Please kindly wait for the owner of the merchant to approve your request
       </p>
     </div>
   </div>

@@ -49,9 +49,10 @@ export default {
           })
         }
       })
-
-
-
+    },
+    onContact(){
+      const link = "https://api.whatsapp.com/send?phone=628111111416&text=Hello%2C%20I%20would%20like%20to%20ask%20about%20YouClaim%20app!"
+      window.open(link, '_blank')
     }
   }
 }
@@ -67,7 +68,7 @@ export default {
     <div class="action-container w-25 d-flex flex-row justify-end align-center">
 
       <template v-if="!isLoading">
-        <c-button v-if="!isLoggedIn" :text="'Contact us'" :variant="'tonal'"/>
+        <c-button v-if="!isLoggedIn" :text="'Contact us'" :variant="'tonal'" @click="onContact"/>
         <div class="d-flex flex-row align-center" v-else>
           <p class="mr-4">Hello, {{userData.name}}</p>
           <c-button :text="'Log Out'" :variant="'tonal'" :onClick="logOut"/>

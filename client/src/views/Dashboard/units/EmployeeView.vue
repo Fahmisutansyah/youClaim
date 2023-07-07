@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     goToScanner(){
-      window.open('https://www.google.com', '_blank')
+      window.open('https://localhost:8081', '_blank')
     }
   }
 }
