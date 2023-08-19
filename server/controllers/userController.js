@@ -17,9 +17,15 @@ class UserController {
         res.status(201).json(created);
       })
       .catch((err) => {
-        res.status(500).json({
-          msg: err.message,
-        });
+        if (err.message === "User validation failed: email: Email is taken!") {
+          res.status(400).json({
+            msg: "Email is taken",
+          });
+        } else {
+          res.status(500).json({
+            msg: err.message,
+          });
+        }
       });
   }
 

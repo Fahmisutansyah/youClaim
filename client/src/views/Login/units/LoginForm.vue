@@ -105,6 +105,11 @@ export default {
     toggleLogIn(){
       this.isLoggingIn = !this.isLoggingIn;
     },
+    resetForm(){
+      this.form.email = ''
+      this.form.password = ''
+      this.form.name = ''
+    },
     submitForm(){
       this.$refs.form.validate().then(({valid})=>{
         if(valid){
@@ -118,14 +123,15 @@ export default {
               text: 'Now you may log in',
             })
             .then(()=>{
+              this.resetForm()
               this.isLoggingIn = true
             })
           })
           .catch(err=>{
             this.$swal({
               icon: 'error',
-              title: 'Oops...',
-              text: 'Check your email and passsword'
+              title: err.response.data.msg ? 'Invalid Email' : 'Oops...',
+              text: err.response.data.msg === 'Email is taken' ? `Email is taken` : 'Check your email and passsword'
             })
             console.log(err)
             this.$store.commit('setLoadingFalse')
